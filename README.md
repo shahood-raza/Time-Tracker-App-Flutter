@@ -1,16 +1,51 @@
-# time_tracker
+# ⏳ Time Tracking App  
 
-A new Flutter project.
+A **Flutter** application to log and manage time entries for different projects.  
+This is my **first complete Flutter project** as I begin my journey into mobile app development.  
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📖 Overview  
 
-A few resources to get you started if this is your first Flutter project:
+The **Time Tracking App** helps users log their work hours for various projects, view all entries, and organize them for better productivity.  
+Built with **Flutter** and **Provider**, it follows clean code practices and focuses on a simple, intuitive UI.  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ✨ Features  
+
+- ➕ **Add New Time Entry** — Enter project name, date, hours, and notes.  
+- 📋 **View All Entries** — See all logged work in one place.  
+- 📂 **Group by Project** — Organize time entries based on projects.  
+- 🗑 **Swipe to Delete** — Remove entries easily with swipe gestures.  
+- 🎨 **Clean UI** — Minimal and beginner-friendly design.  
+
+---
+
+## 🛠 Tech Stack  
+
+- **Flutter** (Dart) — UI & App Logic  
+- **Provider** — State Management  
+- **intl** — Date Formatting  
+
+---
+
+## 📸 Screenshot  
+
+![App Screenshot](screenshot.jpg)  
+
+---
+
+## 🖥 Requirements  
+
+Before running this project, make sure you have:  
+
+- **Flutter SDK** (version 3.0 or above recommended)  
+- **Dart SDK** (comes with Flutter)  
+- **Android Studio** or **VS Code** with Flutter/Dart extensions  
+- A connected device or emulator (Android/iOS)  
+
+Check your Flutter installation with:  
+
+```bash
+flutter doctor
