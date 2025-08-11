@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
 import 'package:localstorage/localstorage.dart';
 import '../models/time_entry.dart';
 import 'package:flutter/foundation.dart';
@@ -103,4 +102,5 @@ final List<Project> _projects = [
     _tasks.removeWhere((tk) => tk.id == id);
     notifyListeners();
   }
+  
 }

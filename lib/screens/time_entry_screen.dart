@@ -29,7 +29,7 @@ class TimeEntryScreenState extends State<TimeEntryScreen> {
     final project = timeEntryProvider.projects;
     final task = timeEntryProvider.tasks;
     return Scaffold(
-      appBar: AppBar(title: Text('Add Time Entry')),
+      appBar: AppBar(title: Text('Add Time Entry'), centerTitle: true),
       body: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
@@ -37,6 +37,20 @@ class TimeEntryScreenState extends State<TimeEntryScreen> {
             // dropDown for projects
             DropdownButtonFormField(
               value: _selectedProjectId,
+              decoration: InputDecoration(
+                labelText: 'Project',
+                prefixIcon: const Icon(
+                  Icons.folder_open_sharp,
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+              ),
               items: project.map((proj) {
                 return DropdownMenuItem(value: proj.id, child: Text(proj.name));
               }).toList(),
@@ -46,8 +60,23 @@ class TimeEntryScreenState extends State<TimeEntryScreen> {
                 });
               },
             ),
+            const SizedBox(height: 16),
             DropdownButtonFormField(
               value: _selectedTaskId,
+              decoration: InputDecoration(
+                labelText: 'Task',
+                prefixIcon: const Icon(
+                  Icons.task_outlined,
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+              ),
               items: task.map((tk) {
                 return DropdownMenuItem(value: tk.id, child: Text(tk.name));
               }).toList(),
@@ -57,13 +86,20 @@ class TimeEntryScreenState extends State<TimeEntryScreen> {
                 });
               },
             ),
-            //for date = dateTimePicker
+            const SizedBox(height: 16),
+            //for date
             TextField(
               controller: _dateController,
               readOnly: true,
               decoration: InputDecoration(
                 labelText: 'Date',
-                prefixIcon: Icon(Icons.edit_calendar),
+                prefixIcon: const Icon(
+                  Icons.edit_calendar,
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(
@@ -80,21 +116,60 @@ class TimeEntryScreenState extends State<TimeEntryScreen> {
                 }
               },
             ),
+            const SizedBox(height: 16),
+
             TextField(
               controller: _totalTimeController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Total Time (in hours)'),
+              decoration: InputDecoration(
+                labelText: 'Total Time (in hours)',
+                prefixIcon: const Icon(
+                  Icons.timer_outlined,
+                  color: Colors.blueAccent,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
             ),
+           const SizedBox(height: 16.0),
             TextField(
               controller: _notesController,
-              decoration: InputDecoration(labelText: 'Notes: '),
+             decoration: InputDecoration(
+                labelText: 'Notes',
+                prefixIcon: const Icon(Icons.note_alt_sharp, color: Colors.blueAccent),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              maxLines: 3,
             ),
-            SizedBox(height: 16.0),
+           const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 _saveEntry(context);
               },
-              child: Text('Save Entry'),
+              style: ElevatedButton.styleFrom(
+                 
+                backgroundColor: Colors.blueAccent, 
+                foregroundColor: Colors.white, 
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), 
+                ),
+                elevation: 4, 
+              ),
+              child: Text(
+                'Save Entry',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                ),
+              ),
             ),
           ],
         ),
@@ -102,47 +177,48 @@ class TimeEntryScreenState extends State<TimeEntryScreen> {
     );
   }
 
-void _saveEntry(BuildContext context) {
-  if (_selectedProjectId == null) {
-    _showError(context, 'Please select a project');
-    return;
-  }
-  if (_selectedTaskId == null) {
-    _showError(context, 'Please select a task');
-    return;
-  }
-  if (_pickedDate == null) {
-    _showError(context, 'Please select a date');
-    return;
-  }
-  if (_totalTimeController.text.trim().isEmpty ||
-      double.tryParse(_totalTimeController.text.trim()) == null) {
-    _showError(context, 'Please enter valid total time in hours');
-    return;
+  void _saveEntry(BuildContext context) {
+    if (_selectedProjectId == null) {
+      _showError(context, 'Please select a project');
+      return;
+    }
+    if (_selectedTaskId == null) {
+      _showError(context, 'Please select a task');
+      return;
+    }
+    if (_pickedDate == null) {
+      _showError(context, 'Please select a date');
+      return;
+    }
+    if (_totalTimeController.text.trim().isEmpty ||
+        double.tryParse(_totalTimeController.text.trim()) == null) {
+      _showError(context, 'Please enter valid total time in hours');
+      return;
+    }
+
+    final entryTime = TimeEntry(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      projectId: _selectedProjectId!,
+      taskId: _selectedTaskId!,
+      totalTime: double.parse(_totalTimeController.text.trim()),
+      date: _pickedDate!,
+      notes: _notesController.text.trim(),
+    );
+
+    Provider.of<TimeEntryProvider>(context, listen: false).addEntry(entryTime);
+    Navigator.pop(context);
   }
 
-  final entryTime = TimeEntry(
-    id: DateTime.now().millisecondsSinceEpoch.toString(),
-    projectId: _selectedProjectId!,
-    taskId: _selectedTaskId!,
-    totalTime: double.parse(_totalTimeController.text.trim()),
-    date: _pickedDate!,
-    notes: _notesController.text.trim(),
-  );
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
-  Provider.of<TimeEntryProvider>(context, listen: false).addEntry(entryTime);
-  Navigator.pop(context);
-}
-
-void _showError(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(message),
-      backgroundColor: Colors.red,
-      duration: Duration(seconds: 2),
-    ),
-  );
-}
   @override
   void dispose() {
     _projectController.dispose();

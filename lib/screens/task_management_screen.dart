@@ -9,27 +9,69 @@ class TaskManagementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Manage Tasks')),
-      body: Consumer<TimeEntryProvider>(
-        builder: (context, provider, child) {
-          return ListView.builder(
-            itemCount: provider.tasks.length,
-            itemBuilder: (context, index) {
-              final task = provider.tasks[index];
-              return ListTile(
-                title: Text(task.name),
-                trailing: IconButton(
-                  onPressed: () {
-                    provider.deleteTask(task.id);
-                  },
-                  icon: Icon(Icons.delete),
+      appBar: AppBar(title: Text('Manage Tasks',
+       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      )),
+      body:Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Consumer<TimeEntryProvider>(
+          builder: (context, provider, child) {
+            if (provider.tasks.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No tasks added yet.',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               );
-            },
-          );
-        },
+            }
+            return ListView.builder(
+              itemCount: provider.tasks.length,
+              itemBuilder: (context, index) {
+                final task = provider.tasks[index];
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 3,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.teal,
+                      child: Text(
+                        task.name.isNotEmpty
+                            ? task.name[0].toUpperCase()
+                            : '?',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    title: Text(
+                      task.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {
+                        provider.deleteTask(task.id);
+                      },
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
+        elevation: 6,
+        shape: CircleBorder(
+          side: BorderSide(color: Colors.white, width: 3),
+        ),
+
         onPressed: () async {
           final taskName = await showDialog<String>(
             context: context,
@@ -45,7 +87,6 @@ class TaskManagementScreen extends StatelessWidget {
               context,
               listen: false,
             ).addTask(task);
-            Navigator.pop(context);
           }
         },
         tooltip: 'Add Task',
