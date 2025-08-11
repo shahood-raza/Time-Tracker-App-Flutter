@@ -1,50 +1,56 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# VS Code settings folder (uncomment if you want to ignore)
-/.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# -------------------------
+# Flutter & Dart
+# -------------------------
 .dart_tool/
+.packages
 .flutter-plugins
 .flutter-plugins-dependencies
-.pub-cache/
-.pub/
 build/
+coverage/
 
-# Android Studio build folders
-/android/app/debug
-/android/app/profile
-/android/app/release
+# -------------------------
+# IDE & Editor
+# -------------------------
+.idea/
+.vscode/
+*.iml
 
-# CocoaPods
+# -------------------------
+# Android
+# -------------------------
+android/.gradle/
+android/captures/
+android/app/build/
+android/local.properties
+# Firebase config (keep local, share sample file instead)
+android/app/google-services.json
+
+# -------------------------
+# iOS
+# -------------------------
+ios/Flutter/
 ios/Pods/
+ios/Podfile.lock
+ios/Runner/GeneratedPluginRegistrant.*
+# Firebase config
+ios/Runner/GoogleService-Info.plist
 
-# Generated Xcode files
-ios/Flutter/Flutter.framework
-ios/Flutter/Flutter.podspec
-ios/Flutter/App.framework
-ios/Flutter/engine/
+# -------------------------
+# Desktop
+# -------------------------
+macos/Flutter/ephemeral/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
 
-# Others
-app.*.symbols
-app.*.map.json
+# -------------------------
+# Web
+# (No web build outputs pushed)
+build/web/
+
+# -------------------------
+# Misc
+# -------------------------
+*.log
+*.tmp
+*.lock
+.DS_Store
